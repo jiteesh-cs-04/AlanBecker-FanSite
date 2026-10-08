@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Admin{% endblock %}
+
+{% block content %}
+<section class="window">
+  <div class="window__bar">
+    <span class="window__title">admin.exe</span>
+  </div>
+  <div class="window__body">
+    <h1>Submissions ({{ rows|length }})</h1>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr><th>#</th><th>When (UTC)</th><th>Name</th><th>Email</th><th>Type</th><th>Link</th><th>Message</th></tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.created_at }}</td>
+            <td>{{ r.name }}</td>
+            <td>{{ r.email }}</td>
+            <td>{{ r.kind }}</td>
+            <td>{% if r.link %}<a href="{{ r.link }}" target="_blank" rel="noopener noreferrer">open</a>{% endif %}</td>
+            <td>{{ r.message }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="7">Nothing yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

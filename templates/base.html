@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A fan-made desktop tribute to Alan Becker and his stick figure animations.">
+  <meta name="theme-color" content="#12141a">
+  <meta property="og:title" content="The Desktop | Alan Becker Fan Site">
+  <meta property="og:description" content="Stick figures, blocky worlds, and a fan zone. A fan-made tribute.">
+  <meta property="og:type" content="website">
+  <title>{% block title %}The Desktop{% endblock %} | Alan Becker Fan Site</title>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%235fb741'/%3E%3Ccircle cx='50' cy='28' r='13' fill='none' stroke='%231b1f27' stroke-width='7'/%3E%3Cpath d='M50 41v30M50 52L33 63M50 52l17-10M50 71L37 90M50 71l13 19' stroke='%231b1f27' stroke-width='7' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <main id="main" class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    Fan-made and unofficial. Not affiliated with Alan Becker.
+    All characters shown are my own stick figure drawings.
+  </footer>
+
+  <nav class="taskbar" aria-label="Main">
+    <a class="taskbar__start" href="{{ url_for('home') }}">
+      <span aria-hidden="true">&#9632;</span> AB.exe
+    </a>
+    <a class="taskbar__link" href="{{ url_for('home') }}"
+       {% if request.endpoint == 'home' %}aria-current="page"{% endif %}>Home</a>
+    <a class="taskbar__link" href="{{ url_for('fan_zone') }}"
+       {% if request.endpoint == 'fan_zone' %}aria-current="page"{% endif %}>Fan Zone</a>
+    <span class="taskbar__clock" id="clock" aria-hidden="true"></span>
+  </nav>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</body>
+</html>

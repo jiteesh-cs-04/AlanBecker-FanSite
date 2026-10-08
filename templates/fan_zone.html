@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Fan Zone{% endblock %}
+
+{% block content %}
+<section class="window" aria-labelledby="fz-title">
+  <div class="window__bar">
+    <span class="window__title">fan_zone.exe</span>
+    <div class="window__controls">
+      <span class="dot dot--yellow" aria-hidden="true"></span>
+      <span class="dot dot--green" aria-hidden="true"></span>
+      <span class="dot dot--red" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <div class="window__body">
+    <p class="tag">{{ count }} fan{{ '' if count == 1 else 's' }} checked in</p>
+    <h1 id="fz-title">Send a message to the Desktop</h1>
+    <p class="lead">
+      Share fan art, pitch a video idea, or just say hi. Your message is saved
+      to my little database, and I read every one.
+    </p>
+
+    <div id="status" tabindex="-1">
+      {% for message in get_flashed_messages() %}
+        <p class="alert alert--ok" role="status">{{ message }}</p>
+      {% endfor %}
+      {% if errors %}
+        <p class="alert alert--error" role="alert">
+          Almost there. Please fix the highlighted fields below.
+        </p>
+      {% endif %}
+    </div>
+
+    <form method="post" action="{{ url_for('fan_zone') }}" class="form">
+
+      <div class="field">
+        <label for="name">Your name</label>
+        <input type="text" id="name" name="name" required minlength="2" maxlength="60"
+               autocomplete="name" value="{{ form.get('name', '') }}"
+               {% if errors.name %}aria-invalid="true" aria-describedby="name-error"{% endif %}>
+        {% if errors.name %}<p class="field__error" id="name-error">{{ errors.name }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required maxlength="120"
+               autocomplete="email" value="{{ form.get('email', '') }}"
+               {% if errors.email %}aria-invalid="true" aria-describedby="email-error"{% endif %}>
+        {% if errors.email %}<p class="field__error" id="email-error">{{ errors.email }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <label for="kind">What are you sending?</label>
+        <select id="kind" name="kind" required
+                {% if errors.kind %}aria-invalid="true" aria-describedby="kind-error"{% endif %}>
+          {% for k in kinds %}
+            <option value="{{ k }}" {{ 'selected' if form.get('kind') == k }}>{{ k }}</option>
+          {% endfor %}
+        </select>
+        {% if errors.kind %}<p class="field__error" id="kind-error">{{ errors.kind }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <label for="link">Link to your artwork <span class="optional">(optional)</span></label>
+        <input type="url" id="link" name="link" maxlength="300" placeholder="https://"
+               value="{{ form.get('link', '') }}"
+               {% if errors.link %}aria-invalid="true" aria-describedby="link-error"{% endif %}>
+        {% if errors.link %}<p class="field__error" id="link-error">{{ errors.link }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required minlength="10" maxlength="1000"
+                  {% if errors.message %}aria-invalid="true" aria-describedby="message-error"{% endif %}>{{ form.get('message', '') }}</textarea>
+        <p class="counter" aria-hidden="true"><span id="char-count">0</span> / 1000</p>
+        {% if errors.message %}<p class="field__error" id="message-error">{{ errors.message }}</p>{% endif %}
+      </div>
+
+      <!-- Honeypot: hidden from humans, tempting for bots -->
+      <div class="hp" aria-hidden="true">
+        <label for="nickname">Leave this empty</label>
+        <input type="text" id="nickname" name="nickname" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button type="submit" class="btn btn--primary">Send it</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

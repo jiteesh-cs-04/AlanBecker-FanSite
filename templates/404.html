@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Page not found{% endblock %}
+
+{% block content %}
+<section class="window" aria-labelledby="nf-title">
+  <div class="window__bar">
+    <span class="window__title">error.exe</span>
+    <div class="window__controls">
+      <span class="dot dot--yellow" aria-hidden="true"></span>
+      <span class="dot dot--green" aria-hidden="true"></span>
+      <span class="dot dot--red" aria-hidden="true"></span>
+    </div>
+  </div>
+  <div class="window__body">
+    <h1 id="nf-title">404: file not found</h1>
+    <p class="lead">The animator deleted this page. Probably by accident.</p>
+    <a class="btn btn--primary" href="{{ url_for('home') }}">Back to the Desktop</a>
+  </div>
+</section>
+{% endblock %}

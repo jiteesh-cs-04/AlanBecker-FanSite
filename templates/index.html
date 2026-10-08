@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="window hero" aria-labelledby="hero-title">
+  <div class="window__bar">
+    <span class="window__title">welcome.exe</span>
+    <div class="window__controls">
+      <span class="dot dot--yellow" aria-hidden="true"></span>
+      <span class="dot dot--green" aria-hidden="true"></span>
+      <button class="dot dot--red" id="close-btn" aria-label="Close window (it won't work)"></button>
+    </div>
+  </div>
+
+  <div class="window__body hero__grid">
+    <div>
+      <p class="tag">Fan-made tribute</p>
+      <h1 id="hero-title">Welcome to the <span class="accent">Desktop.</span></h1>
+      <p class="lead">
+        Stick figures. Blocky worlds. One animator who keeps losing
+        control of his own creations. This is a fan site for the
+        genius behind <strong>Animator vs. Animation</strong> and
+        <strong>Animation vs. Minecraft</strong>.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="{{ url_for('fan_zone') }}">Join the Fan Zone</a>
+        <a class="btn btn--ghost" href="https://www.youtube.com/@alanbecker"
+           target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+      </div>
+    </div>
+
+    <div class="stage" aria-hidden="true">
+      <div class="block block--1"></div>
+      <div class="block block--2"></div>
+      <div class="block block--3"></div>
+
+      <svg id="stickman" viewBox="0 0 200 260" class="stickman" role="img" aria-label="">
+        <ellipse cx="100" cy="240" rx="45" ry="8" class="shadow"/>
+        <g class="figure">
+          <g id="head"><circle cx="100" cy="50" r="28"/></g>
+          <line x1="100" y1="78" x2="100" y2="160"/>
+          <line x1="100" y1="100" x2="60" y2="135"/>
+          <g class="wave"><line x1="100" y1="100" x2="148" y2="72"/></g>
+          <line x1="100" y1="160" x2="70" y2="225"/>
+          <line x1="100" y1="160" x2="130" y2="225"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="window series" aria-labelledby="series-title">
+  <div class="window__bar">
+    <span class="window__title">series.exe</span>
+    <div class="window__controls">
+      <span class="dot dot--yellow" aria-hidden="true"></span>
+      <span class="dot dot--green" aria-hidden="true"></span>
+      <span class="dot dot--red" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <div class="window__body">
+    <h2 id="series-title">Pick a world</h2>
+    <div class="cards">
+      <article class="card" style="--accent: var(--orange)">
+        <h3>Animator vs. Animation</h3>
+        <p>Where it all began: a stick figure fighting back against the animator who drew him.</p>
+      </article>
+
+      <article class="card card--featured" style="--accent: var(--green)">
+        <span class="tag tag--green">My favourite</span>
+        <h3>Animation vs. Minecraft</h3>
+        <p>The stick figures enter the blocky world of Minecraft, and the creator is right there with them.</p>
+      </article>
+
+      <article class="card" style="--accent: var(--blue)">
+        <h3>More adventures</h3>
+        <p>The stick figures keep exploring games and apps. Check the channel for the full list.</p>
+      </article>
+    </div>
+  </div>
+</section>
+{% endblock %}
