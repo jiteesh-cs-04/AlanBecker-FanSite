@@ -9,15 +9,14 @@ if (clock) {
   setInterval(updateClock, 30000);
 }
 
-// 2. The stickman's head follows your mouse
-const head = document.getElementById("head");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-if (head && !reduceMotion) {
+// 2. The five stickmen lean toward your mouse
+const minis = document.querySelectorAll(".mini");
+if (minis.length && !reduceMotion) {
   document.addEventListener("mousemove", (e) => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 14;
-    const y = (e.clientY / window.innerHeight - 0.5) * 10;
-    head.style.transform = `translate(${x}px, ${y}px)`;
+    const lean = (e.clientX / window.innerWidth - 0.5) * 14;
+    minis.forEach((m, i) => m.style.setProperty("--lean", `${lean * (1 + i * 0.12)}deg`));
   });
 }
 
@@ -31,6 +30,7 @@ if (closeBtn) {
     win.classList.add("shake");
   });
 }
+
 // 4. Live character counter on the message box
 const msg = document.getElementById("message");
 const counter = document.getElementById("char-count");
@@ -38,4 +38,20 @@ if (msg && counter) {
   const update = () => { counter.textContent = msg.value.length; };
   msg.addEventListener("input", update);
   update();
+}
+
+// 5. Reveal sections as you scroll down
+const revealEls = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window && revealEls.length) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach((el) => io.observe(el));
+} else {
+  revealEls.forEach((el) => el.classList.add("in"));
 }

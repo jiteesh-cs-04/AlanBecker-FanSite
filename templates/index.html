@@ -2,6 +2,32 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+
+<!-- Stickman sprites: drawn once, reused with <use> everywhere -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="st-idle" viewBox="0 0 100 140">
+      <g fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round">
+        <circle cx="50" cy="22" r="15"/>
+        <path d="M50 37V88M50 52L28 76M50 52L72 76M50 88L33 128M50 88L67 128"/>
+      </g>
+    </symbol>
+    <symbol id="st-wave" viewBox="0 0 100 140">
+      <g fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round">
+        <circle cx="50" cy="22" r="15"/>
+        <path d="M50 37V88M50 52L28 76M50 52L76 30M50 88L33 128M50 88L67 128"/>
+      </g>
+    </symbol>
+    <symbol id="st-cheer" viewBox="0 0 100 140">
+      <g fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round">
+        <circle cx="50" cy="22" r="15"/>
+        <path d="M50 37V88M50 52L26 30M50 52L74 30M50 88L28 126M50 88L72 126"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ HERO ============ -->
 <section class="window hero" aria-labelledby="hero-title">
   <div class="window__bar">
     <span class="window__title">welcome.exe</span>
@@ -24,32 +50,33 @@
       </p>
       <div class="btn-row">
         <a class="btn btn--primary" href="{{ url_for('fan_zone') }}">Join the Fan Zone</a>
-        <a class="btn btn--ghost" href="https://www.youtube.com/@alanbecker"
-           target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+        <a class="btn btn--ghost" href="#series">See the series</a>
       </div>
     </div>
 
-    <div class="stage" aria-hidden="true">
-      <div class="block block--1"></div>
-      <div class="block block--2"></div>
-      <div class="block block--3"></div>
+    <div class="stage" role="img"
+         aria-label="Five stick figures in red, blue, orange, green and yellow standing together">
+      <div class="block block--1" aria-hidden="true"></div>
+      <div class="block block--2" aria-hidden="true"></div>
+      <div class="block block--3" aria-hidden="true"></div>
 
-      <svg id="stickman" viewBox="0 0 200 260" class="stickman" role="img" aria-label="">
-        <ellipse cx="100" cy="240" rx="45" ry="8" class="shadow"/>
-        <g class="figure">
-          <g id="head"><circle cx="100" cy="50" r="28"/></g>
-          <line x1="100" y1="78" x2="100" y2="160"/>
-          <line x1="100" y1="100" x2="60" y2="135"/>
-          <g class="wave"><line x1="100" y1="100" x2="148" y2="72"/></g>
-          <line x1="100" y1="160" x2="70" y2="225"/>
-          <line x1="100" y1="160" x2="130" y2="225"/>
-        </g>
+      <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M3 2l16 9-7 2-3 7z" fill="#1b1f27" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
       </svg>
+
+      <div class="lineup" aria-hidden="true">
+        <div class="mini"><svg class="s s--red" style="--d:-0.5s" viewBox="0 0 100 140"><use href="#st-idle"/></svg><span class="label">Red</span></div>
+        <div class="mini"><svg class="s s--blue" style="--d:-1s" viewBox="0 0 100 140"><use href="#st-cheer"/></svg><span class="label">Blue</span></div>
+        <div class="mini mini--lead"><svg class="s s--orange" viewBox="0 0 100 140"><use href="#st-wave"/></svg><span class="label">Orange</span></div>
+        <div class="mini"><svg class="s s--green" style="--d:-1.4s" viewBox="0 0 100 140"><use href="#st-idle"/></svg><span class="label">Green</span></div>
+        <div class="mini"><svg class="s s--yellow" style="--d:-0.8s" viewBox="0 0 100 140"><use href="#st-cheer"/></svg><span class="label">Yellow</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="window series" aria-labelledby="series-title">
+<!-- ============ SERIES ============ -->
+<section id="series" class="window reveal" aria-labelledby="series-title">
   <div class="window__bar">
     <span class="window__title">series.exe</span>
     <div class="window__controls">
@@ -61,22 +88,148 @@
 
   <div class="window__body">
     <h2 id="series-title">Pick a world</h2>
-    <div class="cards">
-      <article class="card" style="--accent: var(--orange)">
-        <h3>Animator vs. Animation</h3>
-        <p>Where it all began: a stick figure fighting back against the animator who drew him.</p>
-      </article>
 
-      <article class="card card--featured" style="--accent: var(--green)">
-        <span class="tag tag--green">My favourite</span>
-        <h3>Animation vs. Minecraft</h3>
-        <p>The stick figures enter the blocky world of Minecraft, and the creator is right there with them.</p>
-      </article>
+    <div class="shows">
+      {% for s in series %}
+      <article class="show reveal">
+        <a class="preview" href="{{ s.url }}" target="_blank" rel="noopener noreferrer"
+           tabindex="-1" aria-hidden="true">
+          {% if s.thumb %}
+            <img src="{{ s.thumb }}" alt="" width="640" height="360" loading="lazy">
+          {% elif s.scene == "ava" %}
+            <svg class="scene" viewBox="0 0 320 180" focusable="false">
+              <rect width="320" height="180" fill="#2b2f3a"/>
+              <rect x="40" y="22" width="240" height="136" rx="6" fill="#f4f1ea" stroke="#1b1f27" stroke-width="3"/>
+              <rect x="40" y="22" width="240" height="20" rx="6" fill="#e3dfd3" stroke="#1b1f27" stroke-width="3"/>
+              <circle cx="244" cy="32" r="4" fill="#f5c518"/><circle cx="256" cy="32" r="4" fill="#5fb741"/><circle cx="268" cy="32" r="4" fill="#e5484d"/>
+              <svg x="140" y="52" width="56" height="78" viewBox="0 0 100 140" style="color:#ff8c1a"><use href="#st-wave"/></svg>
+              <path d="M70 130 Q 105 100 138 112" stroke="#1b1f27" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+              <polygon points="60,120 60,146 67,140 72,152 78,149 73,138 82,138" fill="#1b1f27" stroke="#fff" stroke-width="1.5"/>
+            </svg>
+          {% elif s.scene == "avm" %}
+            <svg class="scene" viewBox="0 0 320 180" focusable="false">
+              <defs><pattern id="dirt" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="#8b5a2b" stroke="#5a3a1a" stroke-width="2"/></pattern></defs>
+              <rect width="320" height="180" fill="#8ecbff"/>
+              <rect x="250" y="16" width="30" height="30" fill="#f5c518" stroke="#1b1f27" stroke-width="3"/>
+              <rect y="120" width="320" height="60" fill="url(#dirt)"/>
+              <rect y="120" width="320" height="14" fill="#5fb741" stroke="#1b1f27" stroke-width="3"/>
+              <rect x="30" y="40" width="26" height="26" fill="#8b5a2b" stroke="#1b1f27" stroke-width="3"/>
+              <rect x="30" y="40" width="26" height="9" fill="#5fb741"/>
+              <rect x="268" y="78" width="20" height="20" fill="#8b5a2b" stroke="#1b1f27" stroke-width="3"/>
+              <svg x="80" y="50" width="56" height="78" viewBox="0 0 100 140" style="color:#e5484d"><use href="#st-cheer"/></svg>
+              <svg x="140" y="50" width="56" height="78" viewBox="0 0 100 140" style="color:#3b82f6"><use href="#st-idle"/></svg>
+              <svg x="200" y="50" width="56" height="78" viewBox="0 0 100 140" style="color:#5fb741"><use href="#st-wave"/></svg>
+            </svg>
+          {% elif s.scene == "edu" %}
+            <svg class="scene" viewBox="0 0 320 180" focusable="false">
+              <rect width="320" height="180" fill="#1f3b2e"/>
+              <rect x="8" y="8" width="304" height="164" fill="none" stroke="#8b5a2b" stroke-width="8"/>
+              <g fill="none" stroke="#f4f1ea" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M34 146 L34 86 L94 146 Z"/>
+                <path d="M120 116 Q 140 66 160 116 T 200 116"/>
+              </g>
+              <text x="30" y="52" fill="#f4f1ea" font-size="14" style="font-family:var(--font-pixel)">a²+b²=c²</text>
+              <svg x="226" y="64" width="62" height="86" viewBox="0 0 100 140" style="color:#f5c518"><use href="#st-cheer"/></svg>
+            </svg>
+          {% else %}
+            <svg class="scene" viewBox="0 0 320 180" focusable="false">
+              <rect width="320" height="180" fill="#12141a"/>
+              <text x="160" y="46" text-anchor="middle" fill="#5fb741" font-size="14" style="font-family:var(--font-pixel)">SHORTS</text>
+              <svg x="20" y="72" width="46" height="64" viewBox="0 0 100 140" style="color:#e5484d"><use href="#st-idle"/></svg>
+              <svg x="76" y="72" width="46" height="64" viewBox="0 0 100 140" style="color:#3b82f6"><use href="#st-cheer"/></svg>
+              <svg x="132" y="72" width="46" height="64" viewBox="0 0 100 140" style="color:#ff8c1a"><use href="#st-wave"/></svg>
+              <svg x="188" y="72" width="46" height="64" viewBox="0 0 100 140" style="color:#5fb741"><use href="#st-idle"/></svg>
+              <svg x="244" y="72" width="46" height="64" viewBox="0 0 100 140" style="color:#f5c518"><use href="#st-cheer"/></svg>
+            </svg>
+          {% endif %}
+        </a>
 
-      <article class="card" style="--accent: var(--blue)">
-        <h3>More adventures</h3>
-        <p>The stick figures keep exploring games and apps. Check the channel for the full list.</p>
+        <div class="show__body">
+          <p class="show__meta">{{ s.meta }}</p>
+          <h3>{{ s.title }}</h3>
+          <p>{{ s.blurb }}</p>
+          <a class="btn btn--primary" href="{{ s.url }}" target="_blank" rel="noopener noreferrer">
+            Watch on YouTube<span class="sr-only"> (opens in a new tab): {{ s.title }}</span>
+          </a>
+        </div>
       </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="window reveal" aria-labelledby="about-title">
+  <div class="window__bar">
+    <span class="window__title">about.exe</span>
+    <div class="window__controls">
+      <span class="dot dot--yellow" aria-hidden="true"></span>
+      <span class="dot dot--green" aria-hidden="true"></span>
+      <span class="dot dot--red" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <div class="window__body about">
+    <figure class="desk">
+      <svg viewBox="0 0 320 240" role="img"
+           aria-label="Illustration of an animator's desk: a monitor showing an orange stick figure, a cursor and a strip of animation frames">
+        <rect width="320" height="240" fill="#e3dfd3"/>
+        <rect y="190" width="320" height="50" fill="#8b5a2b" stroke="#1b1f27" stroke-width="3"/>
+        <rect x="60" y="30" width="200" height="130" rx="8" fill="#1b1f27"/>
+        <rect x="70" y="40" width="180" height="94" fill="#fff"/>
+        <svg x="132" y="44" width="50" height="70" viewBox="0 0 100 140" style="color:#ff8c1a"><use href="#st-wave"/></svg>
+        <g stroke="#1b1f27" stroke-width="2">
+          <rect x="80" y="116" width="22" height="14" fill="#e3dfd3"/>
+          <rect x="108" y="116" width="22" height="14" fill="#e3dfd3"/>
+          <rect x="136" y="116" width="22" height="14" fill="#5fb741"/>
+          <rect x="164" y="116" width="22" height="14" fill="#e3dfd3"/>
+          <rect x="192" y="116" width="22" height="14" fill="#e3dfd3"/>
+          <rect x="220" y="116" width="22" height="14" fill="#e3dfd3"/>
+        </g>
+        <polygon points="196,70 196,92 202,87 206,96 211,94 207,85 214,85" fill="#1b1f27" stroke="#fff" stroke-width="1.5"/>
+        <rect x="145" y="160" width="30" height="24" fill="#1b1f27"/>
+        <rect x="120" y="182" width="80" height="10" fill="#1b1f27"/>
+        <rect x="100" y="205" width="120" height="16" rx="3" fill="#f4f1ea" stroke="#1b1f27" stroke-width="3"/>
+        <rect x="256" y="166" width="24" height="26" fill="#ff8c1a" stroke="#1b1f27" stroke-width="3"/>
+      </svg>
+      <figcaption>Fan illustration: the animator's desk</figcaption>
+    </figure>
+
+    <div>
+      <h2 id="about-title">Who is Alan Becker?</h2>
+      <p>
+        Alan Becker is an American animator and YouTuber from Ohio. In June 2006,
+        at 17, he posted the first <em>Animator vs. Animation</em>, a Flash cartoon
+        where a stick figure fights back against the cursor of the animator who drew
+        him. It took off, and he has been building on that idea ever since.
+      </p>
+      <p>
+        That idea grew into a whole universe of "Animation vs." videos: stick
+        figures moving through the worlds of games and software, and later even
+        school subjects.
+      </p>
+
+      <ol class="timeline" aria-label="Milestones">
+        {% for year, text in timeline %}
+        <li><strong>{{ year }}</strong>{{ text }}</li>
+        {% endfor %}
+      </ol>
+
+      <div class="fan-note">
+        <p class="tag tag--green">Why I made this</p>
+        <p>
+          I love how the stick figures explore the world of apps on the animator's
+          desktop, and how Alan himself jumps in to interact with them.
+          <em>Animation vs. Minecraft</em> is my favourite.
+        </p>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn btn--primary" href="https://www.youtube.com/@alanbecker"
+           target="_blank" rel="noopener noreferrer">His YouTube channel<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="btn btn--ghost" href="https://alanbecker.net/"
+           target="_blank" rel="noopener noreferrer">Official website<span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
     </div>
   </div>
 </section>
