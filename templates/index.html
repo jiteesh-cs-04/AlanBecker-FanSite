@@ -54,24 +54,34 @@
       </div>
     </div>
 
-    <div class="stage" role="img"
-         aria-label="Five stick figures in red, blue, orange, green and yellow standing together">
-      <div class="block block--1" aria-hidden="true"></div>
-      <div class="block block--2" aria-hidden="true"></div>
-      <div class="block block--3" aria-hidden="true"></div>
-
-      <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M3 2l16 9-7 2-3 7z" fill="#1b1f27" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
-      </svg>
-
-      <div class="lineup" aria-hidden="true">
-        <div class="mini"><svg class="s s--red" style="--d:-0.5s" viewBox="0 0 100 140"><use href="#st-idle"/></svg><span class="label">Red</span></div>
-        <div class="mini"><svg class="s s--blue" style="--d:-1s" viewBox="0 0 100 140"><use href="#st-cheer"/></svg><span class="label">Blue</span></div>
-        <div class="mini mini--lead"><svg class="s s--orange" viewBox="0 0 100 140"><use href="#st-wave"/></svg><span class="label">Orange</span></div>
-        <div class="mini"><svg class="s s--green" style="--d:-1.4s" viewBox="0 0 100 140"><use href="#st-idle"/></svg><span class="label">Green</span></div>
-        <div class="mini"><svg class="s s--yellow" style="--d:-0.8s" viewBox="0 0 100 140"><use href="#st-cheer"/></svg><span class="label">Yellow</span></div>
+    {% if images.hero %}
+      <!-- YOUR PHOTO -->
+      <div class="stage stage--photo">
+        <img src="{{ images.hero }}"
+             alt="A smiling man in glasses and a denim jacket with five colourful stick figures perched on his shoulders"
+             width="474" height="266" fetchpriority="high">
       </div>
-    </div>
+    {% else %}
+      <!-- FALLBACK: the drawn stickmen (your original block, unchanged) -->
+      <div class="stage" role="img"
+           aria-label="Five stick figures in red, blue, orange, green and yellow standing together">
+        <div class="block block--1" aria-hidden="true"></div>
+        <div class="block block--2" aria-hidden="true"></div>
+        <div class="block block--3" aria-hidden="true"></div>
+
+        <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M3 2l16 9-7 2-3 7z" fill="#1b1f27" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+
+        <div class="lineup" aria-hidden="true">
+          <div class="mini"><svg class="s s--red" style="--d:-0.5s" viewBox="0 0 100 140"><use href="#st-idle"/></svg><span class="label">Red</span></div>
+          <div class="mini"><svg class="s s--blue" style="--d:-1s" viewBox="0 0 100 140"><use href="#st-cheer"/></svg><span class="label">Blue</span></div>
+          <div class="mini mini--lead"><svg class="s s--orange" viewBox="0 0 100 140"><use href="#st-wave"/></svg><span class="label">Orange</span></div>
+          <div class="mini"><svg class="s s--green" style="--d:-1.4s" viewBox="0 0 100 140"><use href="#st-idle"/></svg><span class="label">Green</span></div>
+          <div class="mini"><svg class="s s--yellow" style="--d:-0.8s" viewBox="0 0 100 140"><use href="#st-cheer"/></svg><span class="label">Yellow</span></div>
+        </div>
+      </div>
+    {% endif %}
   </div>
 </section>
 
@@ -171,6 +181,11 @@
 
   <div class="window__body about">
     <figure class="desk">
+      {% if images.about %}
+        <img src="{{ images.about }}"
+          alt="A smiling man in glasses and a denim jacket with five colourful stick figures perched on his shoulders"
+          width="474" height="266" loading="lazy">
+      {% else %}
       <svg viewBox="0 0 320 240" role="img"
            aria-label="Illustration of an animator's desk: a monitor showing an orange stick figure, a cursor and a strip of animation frames">
         <rect width="320" height="240" fill="#e3dfd3"/>
@@ -192,7 +207,8 @@
         <rect x="100" y="205" width="120" height="16" rx="3" fill="#f4f1ea" stroke="#1b1f27" stroke-width="3"/>
         <rect x="256" y="166" width="24" height="26" fill="#ff8c1a" stroke="#1b1f27" stroke-width="3"/>
       </svg>
-      <figcaption>Fan illustration: the animator's desk</figcaption>
+      {% endif %}
+      <figcaption>{{ images.about_caption }}</figcaption>
     </figure>
 
     <div>

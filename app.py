@@ -75,7 +75,7 @@ SERIES = [
         "meta": "2006 to 2020 · 5 main films",
         "blurb": "Where it all began: a stick figure fights back against the animator's cursor.",
         "scene": "ava",
-        "thumb": None,  # later: "https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg"
+        "thumb": "/static/img/ava.webp",  # later: "https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg"
         "url": "https://www.youtube.com/@alanbecker/search?query=Animator%20vs.%20Animation",
     },
     {
@@ -83,7 +83,7 @@ SERIES = [
         "meta": "My favourite",
         "blurb": "The stick figures drop into a blocky world, and the animator has to keep up.",
         "scene": "avm",
-        "thumb": None,
+        "thumb": "/static/img/minecraft.webp",
         "url": "https://www.youtube.com/@alanbecker/search?query=Animation%20vs.%20Minecraft",
     },
     {
@@ -91,7 +91,7 @@ SERIES = [
         "meta": "Math, physics and more",
         "blurb": "Stick figures take on school subjects, starting with Animation vs. Math.",
         "scene": "edu",
-        "thumb": None,
+        "thumb": "/static/img/education.webp",
         "url": "https://www.youtube.com/@alanbecker/search?query=Animation%20vs.%20Math",
     },
     {
@@ -112,11 +112,16 @@ TIMELINE = [
     ("2020", "Animator vs. Animation V."),
     ("2022", "Animation vs. Math kicks off the education series."),
 ]
+IMAGES = {
+    "hero": None,   
+    "about": "/static/img/about.webp",
+    "about_caption": "Alan Becker with the stick figure gang",
+}
 
 
 @app.route("/")
 def home():
-    return render_template("index.html", series=SERIES, timeline=TIMELINE)
+    return render_template("index.html", series=SERIES, timeline=TIMELINE, images=IMAGES)
 
 
 @app.route("/fan-zone", methods=["GET", "POST"])
